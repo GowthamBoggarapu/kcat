@@ -1,0 +1,32 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-windows-exe:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up NuGet
+      uses: NuGet/setup-nuget@v1
+
+    - name: Restore NuGet packages
+      working-directory: win32
+      run: nuget restore
+
+    - name: Build with MSBuild
+      working-directory: win32
+      run: msbuild /p:Configuration=Release
+
+    - name: Upload EXE artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: my-windows-exe
+        path: win32/bin/Release/*.exe
