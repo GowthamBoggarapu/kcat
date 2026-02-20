@@ -30,3 +30,5 @@ RUN echo Installing ; \
 RUN kcat -V
 
 ENTRYPOINT ["kcat"]
+
+
